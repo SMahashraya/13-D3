@@ -120,12 +120,12 @@ d3.csv("assets/data/data.csv", function(err, censusHealth) {
   });
 
   // Create a scale for your independent (x) coordinates
-  var xScale = d3.scaleLinear()
+  var xLinearScale = d3.scaleLinear()
     .domain(d3.extent(censusHealth, d => d.poverty))
     .range([0, svgWidth]);
 
   // Create a scale for your dependent (y) coordinates
-  var yScale = d3.scaleLinear()
+  var yLinearScale = d3.scaleLinear()
     .domain([0, d3.max(censusHealth, d => d.healthcareLow)])
     .range([svgHeight, 0]);
 
