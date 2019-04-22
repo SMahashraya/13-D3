@@ -96,7 +96,7 @@ function updateToolTip(chosenXAxis, circlesGroup) {
     return circlesGroup;
 }
 // Load csv data and execute everything below
-d3.csv("assets/data/data.csv", function(error, censusHealth) {
+d3.csv("assets/data/data.csv", function(censusHealth, error) {
 
   if (error) throw error;
 
