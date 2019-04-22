@@ -69,7 +69,7 @@ function updateToolTip(chosenXAxis, circlesGroup) {
   if (chosenXAxis === "poverty") {
     var label = "Poverty (%)"
   }
-  if (chsoenXAxis === "age") {
+  if (chosenXAxis === "age") {
     var label = "Age (Median)";
   }
   else {
@@ -80,7 +80,7 @@ function updateToolTip(chosenXAxis, circlesGroup) {
     .attr("class", "tooltip")
     .offset([80, -60])
     .html(function(d) {
-      return (`${d.state}<br>${label} ${d[chosenAxis]}`);
+      return (`${d.state}<br>${label} ${d[chosenXAxis]}`);
     });
   
   circlesGroup.call(toolTip);
