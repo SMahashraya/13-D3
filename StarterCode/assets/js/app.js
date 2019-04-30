@@ -66,7 +66,7 @@ xText
 .attr("class", "aText inactive x")
 .text("Median Household Income")
 
-var letftTextX = margin + tPadLeft;
+var leftTextX = margin + tPadLeft;
 var leftTextY = (svgHeight + labelArea) / 2 - labelArea;
 
 svg.append("g").attr("class", "yText");
