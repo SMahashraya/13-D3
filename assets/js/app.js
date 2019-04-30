@@ -159,7 +159,6 @@ yText
 // Import our CSV data with d3's .csv import method.
 d3.csv("assets/data/data.csv", function(data) {
     visualize(data)
-    console.log(data);
     });
 
 // 3. Create our visualization function
@@ -277,9 +276,9 @@ svg
 .attr("class", "yAxis")
 .attr("transform", "translate(" + (margin + labelArea) + ", 0)");
 
-var Circles = svg.selectAll("g Circles").data(theData).enter();
+var theCircles = svg.selectAll("g theCircles").data(theData).enter();
 
-Circles
+theCircles
 .append("circle")
 .attr("cx", function(d) {
     return xScale(d[curX]);
@@ -300,7 +299,7 @@ Circles
     d3.select(this).style("stroke", "#e3e3e3");
 });
 
-Circles
+theCircles
 .append("text")
 .text(function(d) {
     return d.abbr;
