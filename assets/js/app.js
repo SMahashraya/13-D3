@@ -36,11 +36,11 @@ var svg = d3
 // it in the mobility section of our code.
 var markerRadius;
 function crGet() {
-  if (width <= 530) {
-    markerRadius = 5;
+  if (width <= 650) {
+    markerRadius = 10;
   }
   else {
-    markerRadius = 10;
+    markerRadius = 12;
   }
 }
 crGet();
