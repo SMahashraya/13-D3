@@ -105,7 +105,7 @@ yText
 .attr("class", "aText inactive y")
 .text("Percent Lacking Healthcare");
 
-d3.csv("assets/data/data.csv").then(function(data) {
+d3.csv("../assets/data/data.csv").then(function(data) {
     visualize(data);
   });
 
@@ -315,6 +315,6 @@ d3.selectAll(".aText").on("click", function() {
             labelChange(axis, self);
         }
     }
-});
+    });
 }
 
