@@ -17,11 +17,11 @@ var height = width - width / 4;
 var margin = 15;
 
 // space for placing words
-var labelArea = 105;
+var labelArea = 100;
 
 // padding for the text at the bottom and left axes
-var textPadBot = 35;
-var textPadLeft = 35;
+var textPadBot = 30;
+var textPadLeft = 30;
 
 // Create the actual canvas for the graph
 var svg = d3
