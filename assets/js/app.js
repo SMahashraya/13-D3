@@ -157,10 +157,10 @@ yText
 // by the Behavioral Risk Factor Surveillance System.
 
 // Import our CSV data with d3's .csv import method.
-d3.csv("assets/data/data.csv").then(function(data) {
-    // Visualize the data
-    visualize(data);
-  });
+d3.csv("assets/data/data.csv", function(data) {
+    visualize(data)
+    console.log(data);
+    });
 
 // 3. Create our visualization function
 // ====================================
@@ -184,7 +184,7 @@ function visualize(theData) {
     var toolTip = d3
     .tip()
     .attr("class", "d3-tip")
-    .offest([40, -60])
+    .offset([40, -60])
     .html(function(d) {
         // x key
         var xValue;
@@ -246,9 +246,9 @@ var xScale = d3
 .range([margin + labelArea, width - margin]);
 
 var yScale = d3
-.scaleLiner()
+.scaleLinear()
 .domain([yMin, yMax])
-.range([height - margin - labelArea, maring]);
+.range([height - margin - labelArea, margin]);
 
 var xAxis = d3.axisBottom(xScale);
 var yAxis = d3.axisLeft(yScale);
