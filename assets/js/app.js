@@ -184,7 +184,7 @@ function visualize(theData) {
     var toolTip = d3
     .tip()
     .attr("class", "d3-tip")
-    .offset([40, -60])
+    .offset([80, -60])
     .html(function(d) {
         // x key
         var xValue;
@@ -232,7 +232,7 @@ function labelChange(axis, clickedText) {
     .filter("." + axis)
     .filter(".active")
     .classed("active", false)
-    .clased("inactive", true);
+    .classed("inactive", true);
 
     clickedText.classed("inactive", false).classed("active", true);
 }
@@ -275,7 +275,7 @@ svg
 .append("g")
 .call(yAxis)
 .attr("class", "yAxis")
-.attr("transform", "translate(" + (margin + labelArea) + ", 0");
+.attr("transform", "translate(" + (margin + labelArea) + ", 0)");
 
 var Circles = svg.selectAll("g Circles").data(theData).enter();
 
