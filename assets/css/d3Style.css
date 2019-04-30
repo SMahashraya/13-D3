@@ -13,7 +13,7 @@
 
 .inactive {
   font-weight: lighter;
-  fill: #c9c9c9;
+  fill: #A9A9A9;
   transition: fill 0.3s ease-out;
   text-anchor: middle;
 }
@@ -52,7 +52,7 @@
   border-radius: 4px;
 }
 
-/* Mobile Rules */
+/* Mobile Rules
 @media screen and (max-width: 530px) {
   .stateText {
     display: none;
@@ -67,4 +67,4 @@
   .aText {
     font-size: 13px;
   }
-}
+} */
