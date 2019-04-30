@@ -14,14 +14,14 @@ var width = parseInt(d3.select("#scatter").style("width"));
 var height = width - width / 4;
 
 // Margin spacing for graph
-var margin = 20;
+var margin = 15;
 
 // space for placing words
-var labelArea = 110;
+var labelArea = 105;
 
 // padding for the text at the bottom and left axes
-var textPadBot = 40;
-var textPadLeft = 40;
+var textPadBot = 35;
+var textPadLeft = 35;
 
 // Create the actual canvas for the graph
 var svg = d3
