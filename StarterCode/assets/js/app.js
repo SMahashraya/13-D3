@@ -107,7 +107,7 @@ yText
 
 d3.csv("assets/data/data.csv").then(function(data) {
     visualize(data);
-});
+  });
 
 function visualize(theData) {
     var curX = "poverty";
