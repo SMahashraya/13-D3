@@ -1,22 +1,40 @@
-var svgWidth = 1000;
-var svgHeight = 500;
+// D3 Animated Scatter Plot
 
+// Section 1: Pre-Data Setup
+// ===========================
+// Before we code any data visualizations,
+// we need to at least set up the width, height and margins of the graph.
+
+// Grab the width of the containing box
+var width = parseInt(d3.select("#scatter").style("width"));
+
+// Designate the height of the graph
+var height = width - width / 3.9;
+
+// Margin spacing for graph
 var margin = 25;
 
+// Space for placing words
 var labelArea = 100;
 
-var tPadBot = 50;
-var tPadLeft = 50;
+// Padding for the text at the bottom and left axes
+var textPadBot = 30;
+var textPadLeft = 30;
 
+// Create the actual canvas for the graph
 var svg = d3
 .select("#scatter")
 .append("svg")
-.attr("width", svgWidth)
-.attr("height", svgHeight);
+.attr("width", width)
+.attr("height", height)
+.attr("class", "chart");
 
+// Set the radius for each dot that will appear in the graph.
+// Note: Making this a function allows us to easily call
+// it in the mobility section of our code.
 var markerRadius;
 function crGet() {
-    if(svgWidth <= 500) {
+    if(width <= 550) {
         markerRadius = 5;
     }
     else {
@@ -25,23 +43,33 @@ function crGet() {
 }
 crGet();
 
+// A) Bottom Axis
+// ==============
+
+// We create a group element to nest our bottom axes labels.
 svg.append("g").attr("class", "xText");
 
+// xText will allows us to select the group without excess code.
 var xText = d3.select(".xText");
 
+// We give xText a transform property that places it at the bottom of the chart.
+// By nesting this attribute in a function, we can easily change the location of the label group
+// whenever the width of the window changes.
 function xTextRefresh() {
     xText
     .attr(
         "transform",
         "translate(" + 
-        ((svgWidth - labelArea) / 2 + labelArea) +
+        ((width - labelArea) / 2 + labelArea) +
         ", " + 
-        (svgHeight - margin - tPadBot) +
+        (height - margin - textPadBot) +
         ")"
     );
 }
 xTextRefresh();
 
+// Now we use xText to append three text SVG files, with y coordinates specified to space out the values.
+// 1. Poverty
 xText
 .append("text")
 .attr("y", 20)
@@ -50,6 +78,7 @@ xText
 .attr("class", "aText active x")
 .text("Percent in Poverty")
 
+// 2. Age
 xText
 .append("text")
 .attr("y", 0)
@@ -58,6 +87,7 @@ xText
 .attr("class", "aText inactive x")
 .text("Median Age")
 
+// 3. Income
 xText
 .append("text")
 .attr("y", -20)
@@ -66,21 +96,34 @@ xText
 .attr("class", "aText inactive x")
 .text("Median Household Income")
 
-var leftTextX = margin + tPadLeft;
-var leftTextY = (svgHeight + labelArea) / 2 - labelArea;
+// B) Left Axis
+// ============
 
+// Specifying the variables like this allows us to make our transform attributes more readable.
+var leftTextX = margin + textPadLeft;
+var leftTextY = (height + labelArea) / 2 - labelArea;
+
+
+// We add a second label group, this time for the axis left of the chart.
 svg.append("g").attr("class", "yText");
 
-var yText = d3.select(".yText");
+// yText will allows us to select the group without excess code.
+var yText = d3
+.select(".yText");
 
+// Like before, we nest the group's transform attr in a function
+// to make changing it on window change an easy operation.
 function yTextRefresh() {
-    yText.attr(
-        "transform",
-        "translate(" + leftTextX + ", " + leftTextY + ")rotate(-90)"
+    yText
+    .attr(
+      "transform",
+      "translate(" + leftTextX + ", " + leftTextY + ")rotate(-90)"
     );
-}
-yTextRefresh();
+  }
+  yTextRefresh();
 
+// Now we append the text.
+// 1. Obesity
 yText
 .append("text")
 .attr("y", -20)
@@ -89,6 +132,7 @@ yText
 .attr("class", "aText active y")
 .text("Percent Obese");
 
+// 2. Smokes
 yText
 .append("text")
 .attr("y", 0)
@@ -97,6 +141,7 @@ yText
 .attr("class", "aText inactive y")
 .text("Percent Smoker");
 
+// 3. Lacks Healthcare
 yText
 .append("text")
 .attr("y", 20)
@@ -105,11 +150,28 @@ yText
 .attr("class", "aText inactive y")
 .text("Percent Lacking Healthcare");
 
-d3.csv("../assets/data/data.csv").then(function(data) {
+// 2. Import our .csv file.
+// ========================
+// This data file includes state-by-state demographic data from the US Census
+// and measurements from health risks obtained
+// by the Behavioral Risk Factor Surveillance System.
+
+// Import our CSV data with d3's .csv import method.
+d3.csv("assets/data/data.csv").then(function(data) {
+    // Visualize the data
     visualize(data);
   });
 
+// 3. Create our visualization function
+// ====================================
+// We called a "visualize" function on the data obtained with d3's .csv method.
+// This function handles the visual manipulation of all elements dependent on the data.
 function visualize(theData) {
+// PART 1: Essential Local Variables and Functions
+// =================================
+// curX and curY will determine what data gets represented in each axis.
+// We designate our defaults here, which carry the same names
+// as the headings in their matching .csv data file.
     var curX = "poverty";
     var curY = "obesity";
 
@@ -118,15 +180,21 @@ function visualize(theData) {
     var yMin;
     var yMax;
 
+// This function allows us to set up tooltip rules (see d3-tip.js).
     var toolTip = d3
     .tip()
     .attr("class", "d3-tip")
     .offest([40, -60])
     .html(function(d) {
+        // x key
         var xValue;
-        var State = "<div>" + d.state + "</div>";
+        // Grab the state name.
+        var stateName = "<div>" + d.state + "</div>";
+        // Snatch the y value's key and value.
         var yValue = "<div>" + curY + ": " + d[curY] + "%</div>";
+        // If the x key is poverty
         if(curX === "poverty") {
+            // Grab the x key and a version of the value formatted to show percentage
             xValue = "<div>" + curX + ": " + d[curX] + "%</div>";
         }
         else {
@@ -134,7 +202,7 @@ function visualize(theData) {
             parseFloat(d[curX]).toLocaleString("en") + 
             "</div>";
         }
-        return State + xValue + yValue;
+        return stateName + xValue + yValue;
     });
 
 svg.call(toolTip);
@@ -175,12 +243,12 @@ yMinMax();
 var xScale = d3
 .scaleLinear()
 .domain([xMin, xMax])
-.range([margin + labelArea, svgWidth - margin]);
+.range([margin + labelArea, width - margin]);
 
 var yScale = d3
 .scaleLiner()
 .domain([yMin, yMax])
-.range([svgHeight - margin - labelArea, maring]);
+.range([height - margin - labelArea, maring]);
 
 var xAxis = d3.axisBottom(xScale);
 var yAxis = d3.axisLeft(yScale);
@@ -315,6 +383,6 @@ d3.selectAll(".aText").on("click", function() {
             labelChange(axis, self);
         }
     }
-    });
+});
 }
 
