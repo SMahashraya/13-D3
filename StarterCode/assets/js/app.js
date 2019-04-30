@@ -91,7 +91,7 @@ yText
 
 yText
 .append("text")
-.attr("y", -20)
+.attr("y", 0)
 .attr("data-name", "smokes")
 .attr("data-axis", "y")
 .attr("class", "aText inactive y")
@@ -99,7 +99,7 @@ yText
 
 yText
 .append("text")
-.attr("y", -20)
+.attr("y", 20)
 .attr("data-axis", "y")
 .attr("data-name", "healthcare")
 .attr("class", "aText inactive y")
